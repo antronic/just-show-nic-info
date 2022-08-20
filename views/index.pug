@@ -45,7 +45,13 @@ html(lang="en")
           transform: scale(1);
         }
       }
+
+      #nic {
+        color: #999;
+      }
   body
     #root
+      p#nic nic:
+        = nic
       each ip in ips
         p.ip= ip

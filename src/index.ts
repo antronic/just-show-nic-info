@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 import express from 'express'
 import { networkInterfaces } from 'os'
 import path from 'path'
@@ -34,7 +36,7 @@ function getServerIps() {
 }
 
 app.get('/', (req: express.Request, res: express.Response) => {
-  res.render(path.join(__dirname, '../views/index'), { ips: getServerIps() })
+  res.render(path.join(__dirname, '../views/index'), { ips: getServerIps(), nic })
 })
 
 app.listen(PORT, () => {
