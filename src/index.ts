@@ -5,19 +5,19 @@ import path from 'path'
 const app = express()
 const PORT = process.env.PORT || 3000
 
+const nic = process.env.NIC || 'eth0'
+
 app.set('view engine', 'pug')
 
 function listServerNics() {
   const nets = networkInterfaces()
   const nics: { nic: string; nicInfo: string; address: string; family: "IPv4" | "IPv6" }[] = []
 
-  Object.keys(nets).forEach((nic, index) => {
-    // console.log('nets?[nic]', nets[nic])
-    nets[nic]?.forEach((info) => {
-      // console.log(inf)
+  Object.keys(nets).forEach((_nic, index) => {
+    nets[_nic]?.forEach((info) => {
       nics.push({
-        nic: nic,
-        nicInfo: nic + '-' + index,
+        nic: _nic,
+        nicInfo: _nic + '-' + index,
         address: info.address,
         family: info.family,
       })
@@ -25,13 +25,12 @@ function listServerNics() {
   })
 
   console.table(nics)
-  // console.log(nets)
 }
 
 function getServerIps() {
   const nets = networkInterfaces()
 
-  return nets.en0?.map((nic) => nic.address)
+  return nets[nic]?.map((_nic) => _nic.address)
 }
 
 app.get('/', (req: express.Request, res: express.Response) => {
